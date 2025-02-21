@@ -8,7 +8,7 @@ app.use(express.json())
 app.use(cors())
 
 app.post('/usuarios', async (req, res) => {
-
+  try {
     await prisma.user.create({
       data: {
         name : req.body.name,
@@ -16,8 +16,11 @@ app.post('/usuarios', async (req, res) => {
         email : req.body.email
       }
     })
-    
     res.status(201).send("post ok")
+  } catch (error) {
+    console.log(error)
+    res.status(400).send("Seu email já está cadastrado")
+  }
 })
 
 
